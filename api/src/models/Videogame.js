@@ -16,20 +16,22 @@ module.exports = (sequelize) => {
     description: {
       type: DataTypes.STRING,
       allowNull:false,
+      defaultValue: "",
     },
-    platforms: {
-      type: DataTypes.STRING,
+    platforms: {//De la API viene como un array de objetos, la 1° propiedad tiene un obj platform.name = "..." con el nombre de la plataforma
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
     },
     image: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     released: {//Fecha de Lanzamiento
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     rating: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     createdInDb: {
@@ -37,7 +39,9 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: true,
     }
-  },{
-    timestamps: false
+  },
+  {
+    timestamps: false,
+    freezerTableName: true,
   });
 };

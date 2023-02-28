@@ -15,7 +15,7 @@ const gameByIdApi = async (id) => {
             released: gameData.released,
             rating: gameData.rating,
             genres: gameData.genres.map((el) => el.name),
-            platfomrs: gameData.parent_platforms.map((el) => el.platform.name),
+            platforms: gameData.parent_platforms.map((el) => el.platform.name),
             image: gameData.background_image,
             description: gameData.description_raw,
         }
@@ -47,7 +47,7 @@ const gameByIdDB = async (id) => {
         released: gameDb.released,
         rating: gameDb.rating,
         genres: gameDb.genres.map((el => el.name)),
-        platfomrs: gameDb.platfomrs,
+        platforms: gameDb.platforms,
         image: gameDb.image,
         description: gameDb.description,
         createdInDb: gameDb.createdInDb

@@ -27,11 +27,11 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     released: {//Fecha de Lanzamiento
-      type: DataTypes.STRING,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     rating: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     createdInDb: {

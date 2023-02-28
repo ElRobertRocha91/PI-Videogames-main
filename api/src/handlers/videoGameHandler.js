@@ -33,16 +33,16 @@ const getGamesHandler = async (req, res) => {
                     released: el.released,
                     rating: el.rating,
                     image: el.background_image,
-                    genres: el.genres.map(genre => genre.name).join(', '),
-                    platform: el.platforms.map((el) => el.platform.name).join(', ')
+                    genres: el.genres.map(genre => genre.name).join(' '),
+                    platform: el.platforms.map((el) => el.platform.name).join(' ')
                 }
             })
             //Respondemos con el array de objetos que creamos
-            res.status(200).send(gameApi);
+            res.status(200).json(gameApi);
         }else{
             //Si no se recibe un name por query, le devolvemos todos los videogames
             const allGames = await getAllGames();
-            res.status(200).send(allGames);
+            res.status(200).json(allGames);
         }
         //-------------------Revisar por que no funciono esta primera ruta-----------------------//
         // const { name } = req.query;

@@ -16,11 +16,11 @@ const getApiInfo = async () => {
                     id: el.id,
                     name: el.name,
                     description: el.description,
-                    platforms: el.platforms? el.platforms.map((el) => el.platform.name) : ["No hay datos de plataformas"],
+                    platforms: el.platforms? el.platforms.map((el) => el.platform.name).join(', ') : ["No hay datos de plataformas"],
                     image: el.background_image,
                     released: el.released,
                     rating: el.rating,
-                    genres: el.genres? el.genres.map(el => el.name): ["No hay datos de géneros"],
+                    genres: el.genres? el.genres.map(el => el.name).join(' '): ["No hay datos de géneros"],
                 })
             })
         }

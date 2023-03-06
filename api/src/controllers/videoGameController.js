@@ -40,7 +40,7 @@ const getInfoDb = async () => {
             include: [
                 {
                     model: Genres,
-                    attributes: ['name'],
+                    attributes: ["name"],
                     through: {
                         attributes: []
                     }
@@ -49,8 +49,7 @@ const getInfoDb = async () => {
             ] 
         })
         //console.log(dataInfo);
-        //return dataInfo;
-        //console.log(dataInfo);
+    
         //mapeo la info de la BD y devuelvo un array de obj
         const arrayInfoData = dataInfo.length? 
         dataInfo.map(el => {
@@ -63,12 +62,12 @@ const getInfoDb = async () => {
                 image: el.image,
                 released: el.released,
                 rating: el.rating,
-                genres: el.genres.length? el.genres.map(e => e.name): [""],
+                genres: el.genres? el.genres.map(e => e.name).join(' '): [""],
                 createdInDb: el.createdInDb
             }
         }) :
         [];
-        //console.log(arrayInfoData);
+        //console.log(arrayInfoData);==>> [{...}]
         return arrayInfoData;
     } catch (error) {
         console.log(error);

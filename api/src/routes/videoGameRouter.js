@@ -8,6 +8,6 @@ const videoGameRouter = Router();
 
 videoGameRouter.get('/', getGamesHandler);
 videoGameRouter.get('/:id', getGameById);
-videoGameRouter.post('/videogame', createGameHandler);
+videoGameRouter.post('/', createGameHandler);
 
 module.exports = videoGameRouter;

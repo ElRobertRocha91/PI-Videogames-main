@@ -2,10 +2,10 @@ const { Videogame, Genres } = require('../db');
 const { getAllGames } = require('../controllers/videoGameController');
 
 const createGameHandler = async (req, res) => {
-    //console.log("RUTA PARA CREAR UN VIDEOGAME");
+    console.log("RUTA PARA CREAR UN VIDEOGAME");
     try {
         const {name, description, released, rating, platforms, genres, image } = req.body;
-        console.log(req.body);
+        //console.log(req.body);
         //Valido si me llega info obligatoria
         if(!name || !description || !platforms){
             res.status(400).send("Faltan enviar datos obligatorios")

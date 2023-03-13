@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDetails } from "../../redux/actions";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import style from "./Detail.module.css"
 
 export default function Detail(){
     //console.log(props);
@@ -17,26 +18,43 @@ export default function Detail(){
     console.log(myVideogame);//==>>Es un objeto, "NO UN ARREGLO"
 
     //Trabajo por separado estas dos propiedades del obj myVideogame para renderizarlas correctamente en el detail
-    const detailPlatform = myVideogame.platforms?.join(' ');
-    const detailGenres = myVideogame.genres?.join(' ');
+    const detailPlatform = myVideogame.platforms?.join('-');
+    const detailGenres = myVideogame.genres?.join('-');
     console.log(myVideogame.platforms);//LLega como un array vacio buscar el error 
     return(
         <div>
+        <div className={style.container}>
+            <div>
+                <Link to="/home">
+                   <button className={style.button}>Return Home</button>
+                </Link>
+            </div>
             {
                 myVideogame?
                 <div>
-                    <h1>{myVideogame.name}</h1>
-                    <img src={myVideogame.image} alt="img not found" height="250px" width="250px"/>
-                    <h5>Plataformas: {detailPlatform? detailPlatform:"No tiene plataformas"}</h5>
-                    <h5>Generos: {detailGenres}</h5>
-                    <p>Lanzamiento: {myVideogame.released}</p>
-                    <p>Rating: {myVideogame.rating}</p>
-                    <p>{myVideogame.description}</p>
+                    <div className={style.detail}>
+                        <div className={style.img}>
+                            <h2>{myVideogame.name}</h2>
+                            <img src={myVideogame.image} alt="img not found" height="250px" width="250px"/>
+                            <div>
+                                <label>Plataformas: </label>
+                                <p>{detailPlatform? detailPlatform:"No tiene plataformas"}</p>
+                                <label>Generos: </label>
+                                <p>{detailGenres}</p>
+                                <label>Lanzamiento</label>
+                                <p>{myVideogame.released}</p>
+                                <label>Rating: </label>
+                                <p>{myVideogame.rating}</p>
+                            </div>
+                        </div>
+                    <div className={style.description}>
+                        <p>{myVideogame.description}</p>
+                    </div>
+                    </div>
                 </div> : <p>Loading...</p>
             }
-            <Link to="/home">
-                <button>Return Home</button>
-            </Link>
+
+        </div>
         </div>
     )
 }

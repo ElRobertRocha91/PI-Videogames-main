@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import validation from "./Validation";
 import { useDispatch, useSelector } from "react-redux";
 import { getGenres, getPlatforms, postVideogames } from "../../redux/actions";
-import { Link, useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom";
+import style from "./Form.module.css";
 
 
 export default function Form(){
@@ -38,12 +39,13 @@ export default function Form(){
             ...input,
             [e.target.name]: e.target.value
         });
-        //console.log(input)
+        
         //Seteo los errores al mismo tiempo que suceden los cambios en el input
         setErrors(validation({
             ...errors,
             [e.target.name]: e.target.value
         }))
+        console.log(input)
     } 
 
     function handleSelectPlatforms(e){
@@ -81,7 +83,7 @@ export default function Form(){
             });
             setErrors(validation({
                 ...input,
-                genres:[...input.genres, e.target.value]
+                genres: [...input.genres, e.target.value]
             }));
         }else{
             setInput({
@@ -99,6 +101,7 @@ export default function Form(){
     }
 
     function handleSubmit(e){
+        //console.log(e.target.value)
         e.preventDefault();
         console.log(input)
         dispatch(postVideogames(input))
@@ -119,32 +122,38 @@ export default function Form(){
     }
 
     return(
-        <div>
+        <div className={style.container}>
             <Link to='/home'>
-                <button>Return Home</button>
+                <button className={style.button}>Return Home</button>
             </Link>
             <h1>Create Videogames</h1>
-            <form>
+            <form className={style.form}>
                 <div>
-                    <label>Name:</label>
+                    <label>Nombre:</label>
                     <input
+                    placeholder="Ingresar nombre..."
                     type="text" 
                     value={input.name} 
                     name="name" 
                     onChange={handleInputChange}
                     />
-                    {/*Renderizamos en un condicional el errors*/}
-                    {errors.name && <p>{errors.name}</p>}
+                    <span className={style.span}>
+                        {/*Renderizamos en un condicional el errors*/}
+                        {errors.name && <p className={style.error}>{errors.name}</p>}                  
+                    </span>
                 </div>
                 <div>
                     <label>Description:</label>
                     <input
+                    placeholder="Ingresar descripción..."
                     type="text" 
                     value={input.description} 
                     name="description" 
                     onChange={handleInputChange} 
                     />
-                    {errors.description && <p>{errors.description}</p>}
+                    <span>
+                        {errors.description && <p className={style.error}>{errors.description}</p>}
+                    </span>
                 </div>
                 <div>
                     <label>Released:</label>
@@ -154,37 +163,38 @@ export default function Form(){
                     name="released" 
                     onChange={handleInputChange}
                     />
-                    {errors.released && <p>{errors.released}</p>}
+                    <span>
+                        {errors.released && <p className={style.error}>{errors.released}</p>}
+                    </span>
                 </div>
                 <div>
                     <label>Rating:</label>
                     <input 
+                    placeholder="Ingresar rating..."
                     type="float" 
                     value={input.rating} 
                     name="rating" 
                     onChange={handleInputChange}
                     />
-                    {errors.rating && <p>{errors.rating}</p>}
+                    <span>
+                        {errors.rating && <p className={style.error}>{errors.rating}</p>}
+                    </span>
                 </div>
                 <div>
                     <label>Image:</label>
-                    <input
+                    <input 
+                    placeholder="Ingresar imagen..."
                     type="text" 
                     value={input.image} 
                     name="image" 
                     onChange={handleInputChange}
                     />
-                    {errors.image && <p>{errors.image}</p>}
+                    <span>
+                        {errors.image && <p className={style.error}>{errors.image}</p>}
+                    </span>
                 </div>
                 <div>
-                    {/* <label>Platforms:</label>
-                    <input 
-                    type="text" 
-                    value={input.platforms} 
-                    name="platforms" 
-                    onChange={handleInputChange}
-                    /> */}
-                    <p>Platforms:</p>
+                    <h6>Platforms:</h6>
                     <select onChange={(e) => handleSelectPlatforms(e)}>
                         <option value="All">All</option>
                         {platForms && 
@@ -195,20 +205,20 @@ export default function Form(){
                         })
                         }
                     </select>
-                    {errors.platForms && <p>{errors.platForms}</p>}
+                    {errors.platforms && <p className={style.error}>{errors.platforms}</p>}
                 </div>
-                <ul>
+                <div className={style.s}>  
                     {input.platforms.map((el) => (
-                        <li key={el}>
-                            <div>
+                        <li key={el} className={style.li}>
+                            <div className={style.lista}>
                                 {el + " "}
-                                <button type="button" onClick={() => handleDeletePlatforms(el)}>x</button>
+                                <button className={style.b} type="button" onClick={() => handleDeletePlatforms(el)}>x</button>
                             </div>
                         </li>
                      ) ) } 
-                </ul>
+                </div>
                 <div>
-                    <p>Genres:</p>
+                    <h6>Genres:</h6>
                     <select onChange={(e) => handleSelectGenres(e)}>
                         <option value="All">All</option>
                         {genres && 
@@ -219,18 +229,18 @@ export default function Form(){
                         }
                     </select>
                 </div>
-                <ul>
+                <div className={style.s}>
                     {input.genres.map((el) => (
-                        <li key={el}>
-                            <div>
+                        <li key={el} className={style.li}>
+                            <div className={style.lista}>
                                {el + " "} 
-                               <button type="button" onClick={() => handleDeleteGenres(el)}>x</button>
+                               <button className={style.b} type="button" onClick={() => handleDeleteGenres(el)}>x</button>
                             </div>
                         </li>
                     ))}
-                </ul>
+                </div>
                 <div>
-                    <button type="submit" onSubmit={(e) => handleSubmit(e)}>Create</button>
+                    {errors.name ? null : <button className={style.create} type="submit" onSubmit={(e) => handleSubmit(e)}>Create</button>}     
                 </div>
             </form>
         </div>

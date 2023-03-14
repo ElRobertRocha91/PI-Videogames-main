@@ -12,17 +12,15 @@ export default function validation(input){
     }
     if(!input.description){
         errors.description = "Description is required";
-    }else if(input.description.length > 500){
-        errors.description = "The description has a maximum of 500 characters allowed";
+    }else if(input.description.length > 100){
+        errors.description = "The description has a maximum of 100 characters allowed";
     }
     if(!input.released){
         errors.released = "The date is required";
     }
     if(!input.rating){
         errors.rating = "The rating is required";
-    }else if(isNaN(input.rating)){
-        errors.rating = `Error: ${input.rating} isn't number`;
-    }else if(input.rating.length > 5 || input.rating < 0){
+    }else if(input.rating >= 5 || input.rating <= 0){
         errors.rating = "The rating must be between 0 to 5";
     }
     if(!input.image){

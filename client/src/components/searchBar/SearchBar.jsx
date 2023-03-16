@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { getVideogameByName } from "../../redux/actions";
 import Paginado from "../paginado/Paginado";
+import style from "./SearchBar.module.css";
 
 //Creo mi función SearchBar(Buscar en Barra)
 export default function SearchBar(){
@@ -17,7 +18,7 @@ export default function SearchBar(){
     function handleInputChange(e){
         e.preventDefault();
         setName(e.target.value);
-        console.log(name);
+        //console.log(name);
         Paginado(1);
     }
     //A esta función se la pasamos al input
@@ -35,9 +36,11 @@ export default function SearchBar(){
     
     //Renderizado
     return(
-        <div>
-            <input type="text" placeholder="Search..." onChange={(e) => handleInputChange(e)} value={name}/>
-            <button type="submit" onClick={(e) => handleSubmit(e)}>Search</button>
+        <div className={style.container}>
+            <form className={style.form}>
+                <input type="text" placeholder="Search by name..." onChange={(e) => handleInputChange(e)} value={name}/>
+                <button type="submit" onClick={(e) => handleSubmit(e)}>Search</button>
+            </form>
         </div>
     )
 }

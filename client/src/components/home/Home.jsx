@@ -6,6 +6,8 @@ import Card from "../card/Card";
 import Paginado from "../paginado/Paginado";
 import { Link } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
+import style from "./Home.module.css";
+import Loading from "../loading/Loading";
 
 //useSelector = Hooks que funciona igual que el mapStateToProps;
 //useDispatch = Hooks que funciona igual que el mapdispatchToProps;
@@ -16,6 +18,7 @@ export default function Home () {
 
     const allVideoGames = useSelector((state) => state.allVideoGames);//state es el Est. Global que es un Obj y nos traemos solo la propiedad que vamos a utilizar.
     // const { allVideoGames } = useSelector(state => state);
+    console.log(allVideoGames);
 
     //Guardo los generos que voy a utilizar del estado global 
     const allGenres = useSelector((state) => state.genres);
@@ -44,7 +47,17 @@ export default function Home () {
     //y vamos a setear la pagina en ese numero de paginas
     const paginado = (numberPage) => {
         setPageCurrent(numberPage)
+      }
+
+    //-----------------------------------------------------//
+    const all = useSelector((state) => state.copyAllVideoGames);
+    //Estado local para el loading
+    const [loading, setLoading] = useState(true);//==> Función inicial en false
+
+    if(allVideoGames.length > 0 && loading){
+      setLoading(false)
     }
+    //------------------------------------------------------//
 
     //UseEffect = Recibe dos argumentos un callbacks y un array de dependencia
     useEffect( () => {
@@ -65,8 +78,8 @@ export default function Home () {
         //console.log(e.target.value);//==>>A-Z o Z-A
         e.preventDefault();
         dispatch(orderByName(e.target.value));
-        setPageCurrent(1);
-        setOrder(`Ordenado ${e.target.value}`);
+        setPageCurrent(1);//Aqui cuando hago el ordenamiento seteame la pagina en la primera
+        setOrder(`Ordenado ${e.target.value}`);//Cuando seteo la pagina en 1, me va a modifique el estado local y me lo renderice
      }
 
      //Despacho el ordemaniemto por rating
@@ -90,57 +103,69 @@ export default function Home () {
      }
 
     return(
-        <div>
-            <Link to='/createVideogames'>Create videogames</Link>
-            <h1>Online Games</h1>
-            <button onClick={e => {handleClick(e)}}>
-                Volver a cargar todos los videogames
-            </button>
-            <SearchBar/>
-            <div>
-                <select onChange={e => handleSort(e)}>
-                    <option value="Order-Alphabetical">Order from the...</option>
-                    <option value="A-Z"> A-Z </option>
-                    <option value="Z-A"> Z-A </option>
-                </select>
-                <select onChange={e => handleRatingSort(e)}>
-                    <option value="Order-Rating">Order by rating</option>
-                    <option value="Men-May">Men-May</option>
-                    <option value="May-Men">May-Men</option>
-                </select>
-                <select onChange={e => handleGenres(e)}>
-                    <option value="All">Genres</option>
-                    {
-                        allGenres?.map(el => (<option key={el.id} value={el.name}>{el.name}</option>))
-                    }
-                </select>
-                <select onChange={e => handleFilterCreated(e)}>
-                    <option value="All">All</option>
-                    <option value="Created">Created in DB</option>
-                    <option value="Existing">From the API</option>
-                </select>
-            <Paginado
-            gamesPerPage={gamesPerPage}
-            allVideoGames={allVideoGames.length}
-            paginado={paginado}
-            />
-            {
-                gamesCurrent?.map(videogame => {
-                    return (
-                        <li key={videogame.id}>
-                          <Link to={`/detail/${videogame.id}`}>
-                            <Card
-                            image={videogame.image}
-                            name={videogame.name}
-                            rating={videogame.rating}
-                            genres={videogame.genres}
-                            />
-                          </Link>
-                        </li>
-                    )
-                })
-            }
+        <div> 
+                {all.length > 0 ? (<div>
+               <div className={style.title}>
+                 <h1>Online Games</h1>
+              </div>
+              <div>
+                  <button onClick={e => {handleClick(e)}} className={style.button}>
+                     Clean Page
+                  </button>
+                  <Link to='/createVideogames' className={style.button}>Create Videogame</Link>           
+              </div>
+                <div>
+                   <select onChange={e => handleSort(e)} className={style.select}>
+                      <option value="Order-Letter">Order by letter</option>
+                      <option value="A-Z"> A-Z </option>
+                      <option value="Z-A"> Z-A </option>
+                    </select>
+                    <select onChange={e => handleRatingSort(e)} className={style.select}>
+                       <option value="Order-Rating">Order by rating</option>
+                       <option value="Men-May">Men-May</option>
+                       <option value="May-Men">May-Men</option>
+                    </select>
+                    <select onChange={e => handleGenres(e)} className={style.select}>
+                       <option value="All">Genres</option>
+                       {
+                          allGenres?.map(el => (<option key={el.id} value={el.name}>{el.name}</option>))
+                        }
+                    </select>
+                    <select onChange={e => handleFilterCreated(e)} className={style.select}>
+                       <option value="All">All</option>
+                       <option value="Created">Created in DB</option>
+                       <option value="Existing">From the API</option>
+                    </select>
+                </div>        
+               <div>
+                <SearchBar/>
+               </div>
+               <Paginado
+               gamesPerPage={gamesPerPage}
+               allVideoGames={allVideoGames.length}
+               paginado={paginado}
+               />
+               <div className={style.contenedor}>
+               <div className={style.cards}>
+               {
+               gamesCurrent?.map(videogame => {
+                 return (
+                  <li className={style.li} key={videogame.id}>
+                     <Link to={`/detail/${videogame.id}`}>
+                       <Card className={style.card}
+                        image={videogame.image}
+                        name={videogame.name}
+                        rating={videogame.rating}
+                        genres={videogame.genres}
+                        />
+                     </Link>
+                  </li>
+                )
+               })
+               }
+              </div>
             </div>
-        </div>
-    )
-}
+            </div>): <Loading/>}
+         </div>
+        )
+   }

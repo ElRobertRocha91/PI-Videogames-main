@@ -1,4 +1,4 @@
-import { GET_ALL_VIDEOGAMES, GET_VIDEOGAME_BY_NAME, GET_DETAILS, ORDER_BY_NAME, ORDER_BY_RATING, FILTER_CREATED, FILTER_GENRES, GET_GENRES, CREATE_VIDEOGAMES, GET_PLATFORMS, FILTER_PLATFORMS } from "./action-types";
+import { GET_ALL_VIDEOGAMES, GET_VIDEOGAME_BY_NAME, GET_DETAILS, ORDER_BY_NAME, ORDER_BY_RATING, FILTER_CREATED, FILTER_GENRES, GET_GENRES, POST_VIDEOGAME, GET_PLATFORMS, FILTER_PLATFORMS } from "./action-types";
 
 const initialState = {
     allVideoGames: [],
@@ -29,6 +29,7 @@ function rootReducer (state = initialState, action) {
                 detail: action.payload
             }
         case ORDER_BY_NAME:
+            //let copyApi = state.copyAllVideoGames 
             //Aplico un ternario para analizar los dos posibles action.payload
             let arrayOrdered = action.payload === "A-Z" ?
             //Si la action.payload es "A-Z" ==>> "asc"
@@ -54,7 +55,7 @@ function rootReducer (state = initialState, action) {
             })
             return {
                 ...state,
-                allVideoGames: action.payload === "Order-Alphabetical" ? state.copyAllVideoGames : arrayOrdered
+                allVideoGames: arrayOrdered
             }
         case ORDER_BY_RATING:
             // let copyStatus = [...state.copyAllVideoGames];
@@ -82,7 +83,7 @@ function rootReducer (state = initialState, action) {
             })
             return {
                 ...state,
-                allVideoGames: arrayRating//==>>> revisar para evitar un bugs cuando esta en default nos renderice un estado con todos los videogames
+                allVideoGames: arrayRating
             }
         case FILTER_CREATED:
             const allVideoGamesCopy = state.copyAllVideoGames
@@ -124,7 +125,7 @@ function rootReducer (state = initialState, action) {
                 ...state,
                 allVideoGames: platformsFiltered
             }
-        case CREATE_VIDEOGAMES:
+        case POST_VIDEOGAME:
             //El post no hace nada, solo retorna el estado como esta, "creamos el videogames en una ruta nueva"
             return{
                 ...state

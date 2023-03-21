@@ -1,12 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetails } from "../../redux/actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import style from "./Detail.module.css"
+import Loading  from "../loading/Loading";
 
 export default function Detail(){
     //console.log(props);
+    const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -21,8 +23,14 @@ export default function Detail(){
     const detailPlatform = myVideogame.platforms?.join('-');
     const detailGenres = myVideogame.genres?.join('-');
     console.log(myVideogame.platforms);//LLega como un array vacio buscar el error 
+
+    //Usamos el método estatico Object.keys(), para saber si el array devuelto tiene las propiedades  que va a ser renderizadas 
+    if(Object.keys(myVideogame).length > 0 && loading){
+        setLoading(false)
+    }
     return(
         <div>
+            {Object.keys(myVideogame).length > 0 && !loading ?
         <div className={style.container}>
             <div>
                 <Link to="/home">
@@ -51,10 +59,12 @@ export default function Detail(){
                         <p>{myVideogame.description}</p>
                     </div>
                     </div>
-                </div> : <p>Loading...</p>
+                </div> : <Loading/>
             }
 
-        </div>
+        </div> : <Loading/>
+                
+        }
         </div>
     )
 }

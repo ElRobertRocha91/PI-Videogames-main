@@ -122,9 +122,10 @@ export function filterPlatforms(payload){
 
 //Definimos la action para crear el videogames
 export function postVideogames(payload){
+    //console.log(payload)
     return async function(){
         try {
-            const response = await axios.post("http://localhost:3001/videogame", payload);
+            const response = await axios.post("http://localhost:3001/videogames", payload);
             console.log(response);
             return response
         } catch (error) {

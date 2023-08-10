@@ -2,13 +2,13 @@ const { Videogame, Genres } = require('../db');
 const { getAllGames } = require('../controllers/videoGameController');
 
 const createGameHandler = async (req, res) => {
-    console.log("RUTA PARA CREAR UN VIDEOGAME");
+    //console.log("RUTA PARA CREAR UN VIDEOGAME");
     try {
         const {name, description, released, rating, platforms, genres, image } = req.body;
         //console.log(req.body);
         //Valido si me llega info obligatoria
         if(!name || !description || !platforms){
-            res.status(400).send("Faltan enviar datos obligatorios")
+            res.status(400).json({msg: "Faltan enviar datos obligatorios"})
         }
         //Valido si el nombre del juego ya existe en mi base de datos
         const videoGameFound = await Videogame.findAll({
@@ -17,7 +17,7 @@ const createGameHandler = async (req, res) => {
             }
         })
         if(videoGameFound.length != 0){
-            return res.send("Ya existe el videogame con ese nombre");
+            return res.json({msg: "Ya existe el videogame con ese nombre"});
         }
         //Tambien validamos en caso sensitive
         const videoGameAll = await getAllGames();
@@ -45,9 +45,9 @@ const createGameHandler = async (req, res) => {
             //console.log(genreDB)
             newVideoGame.addGenres(genreDB)
 
-            res.status(200).send("Se creo el videogame de forma correcta")
+            res.status(200).json({msg: "Se creo el videogame de forma correcta"})
         }else{
-            res.status(200).send("El nombre del videogame ya existe")
+            res.status(200).json({msg: "El nombre del videogame ya existe"})
         }
     } catch (error) {
         console.log(error)

@@ -29,7 +29,7 @@ const getPlatformsHandler = async (req, res) => {
         //Aplico un ternario para verificar que exista
         uniquePlatforms.length ?
         res.status(200).json(uniquePlatforms) :
-        res.status(400).send("Fallo la eliminación de los repetidos")
+        res.status(400).json({msg: "Fallo la eliminación de los repetidos"})
 
         // const allPlatforms = containerPlatforms.map(el => el.map(platform => {
         //     if(!allPlatforms.includes(platform)){
@@ -40,6 +40,6 @@ const getPlatformsHandler = async (req, res) => {
         console.log(error)
     }
 }
-//getPlatforms()
+
 
 module.exports = {getPlatformsHandler};

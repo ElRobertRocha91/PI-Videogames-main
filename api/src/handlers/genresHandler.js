@@ -6,9 +6,8 @@ const getGenresHandler = async (req, res) => {
         const genres = await getGenresApi();
         res.status(200).json(genres);
     } catch (error) {
-        res.status(400).send(error.message);
+        res.status(400).json({msg: error.message});
     }
-
 }
 
 module.exports = { getGenresHandler };

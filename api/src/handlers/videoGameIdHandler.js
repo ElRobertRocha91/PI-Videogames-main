@@ -8,7 +8,7 @@ const getGameById = async (req, res) => {
         const gameId = await videoGameById(id);
         //console.log(gameId);
         if(!gameId){
-            res.status(404).send(`El ID: ${id} no corresponde a ningun videogames existente, pruebe ingresar con otro ID`);
+            res.status(404).json({msg: `El ID: ${id} no corresponde a ningun videogames existente, pruebe ingresar con otro ID`});
         }else{
             res.status(200).json(gameId);
         }

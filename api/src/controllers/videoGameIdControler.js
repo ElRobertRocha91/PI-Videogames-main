@@ -24,7 +24,6 @@ const gameByIdApi = async (id) => {
         console.log(error);
     }
 }
-//gameByIdApi();
 
 //Segundo obtengo la info x id de mi DataBase:
 

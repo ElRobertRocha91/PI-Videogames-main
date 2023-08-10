@@ -30,7 +30,6 @@ const getApiInfo = async () => {
         console.log(error);
     }
 }
-//getApiInfo();
 
 //Obtengo mi info de mi Base de datos
 
@@ -48,7 +47,7 @@ const getInfoDb = async () => {
 
             ] 
         })
-        //console.log(dataInfo);
+        console.log(dataInfo);
     
         //mapeo la info de la BD y devuelvo un array de obj
         const arrayInfoData = dataInfo.length? 
@@ -73,7 +72,6 @@ const getInfoDb = async () => {
         console.log(error);
     }
 }
-//getInfoDb();
 
 //Obtengo toda la info junta en un array de objetos
 
@@ -90,6 +88,6 @@ const getAllGames = async () => {
         console.log(error);
     }
 }
-//getAllGames();
+
 
 module.exports = {getApiInfo, getInfoDb, getAllGames};

@@ -1,54 +1,35 @@
-const { Videogame, Genres } = require('../db');
-const { getAllGames } = require('../controllers/videoGameController');
+const { Videogame } = require('../db');
+// const { getAllGames } = require('../controllers/videoGameController');
+const { createVideogame } = require('../controllers/createGameController');
 
 const createGameHandler = async (req, res) => {
     //console.log("RUTA PARA CREAR UN VIDEOGAME");
     try {
         const {name, description, released, rating, platforms, genres, image } = req.body;
-        //console.log(req.body);
-        //Valido si me llega info obligatoria
+        //Validate information
         if(!name || !description || !platforms){
-            res.status(400).json({msg: "Faltan enviar datos obligatorios"})
+            res.status(400).json({msg: "Missing send data"})
         }
-        //Valido si el nombre del juego ya existe en mi base de datos
+        //Validate name  
         const videoGameFound = await Videogame.findAll({
             where: {
                 name: name
             }
         })
         if(videoGameFound.length != 0){
-            return res.json({msg: "Ya existe el videogame con ese nombre"});
+            res.json({msg: "The videogame with that name already exists"});
         }
-        //Tambien validamos en caso sensitive
-        const videoGameAll = await getAllGames();
-        //console.log(videGameAll);
-        const gameFound = videoGameAll.find(
-            (el) => el.name.toLowerCase() === name.toLowerCase()
-        )
-        //console.log(gameFound)
-        if(gameFound === undefined){
-            const newVideoGame = await Videogame.create({
-                name,
-                description,
-                released,
-                rating,
-                image,
-                platforms
-            })
-            //console.log(newVideoGame);
-            //El genero se lo pasamos aparte para armar las relaciones
-            const genreDB = await Genres.findAll({
-                where: {
-                    name: genres//El cliente escribe el genero Accion
-                }
-            })
-            //console.log(genreDB)
-            newVideoGame.addGenres(genreDB)
-
-            res.status(200).json({msg: "Se creo el videogame de forma correcta"})
-        }else{
-            res.status(200).json({msg: "El nombre del videogame ya existe"})
-        }
+        // const allVideogame = await getAllGames();
+        // console.log(AllVidegame);
+        // const found = allVideogame.find(
+        //     (el) => el.name.toLowerCase() === name.toLowerCase()
+        // )
+        // }else{
+        //     res.status(200).json({msg: "El nombre del videogame ya existe"})
+        // }
+        const newVideogame = await createVideogame(name, description, released, rating, platforms, genres, image );
+        console.log(newVideogame);
+        res.status(200).json({msg: "Videogame created successfully"});
     } catch (error) {
         console.log(error)
     }
